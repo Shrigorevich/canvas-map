@@ -25,8 +25,10 @@ import {
 } from "@material-ui/core";
 import { grey, lightGreen } from "@material-ui/core/colors";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CheckIcon from "@material-ui/icons/Check";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import EditIcon from "@material-ui/icons/Edit";
+import CloseIcon from "@material-ui/icons/Close";
 import { SpeedDial, SpeedDialIcon } from "@material-ui/lab";
 
 import CreateItem from "./CreateItem";
@@ -130,11 +132,17 @@ const StyledTableRow = withStyles((theme) => ({
             backgroundColor: theme.palette.action.hover,
         },
         "&:hover": {
-            backgroundColor: `${theme.palette.primary.main} !important`,
+            backgroundColor: `${grey[600]} !important`,
             color: "#000 !important",
         },
     },
 }))(TableRow);
+
+const StyledTableCell = withStyles((theme) => ({
+    root: {
+        padding: "0 12px 0 12px",
+    },
+}))(TableCell);
 
 const headCells = [
     {
@@ -259,6 +267,8 @@ const Dashboard = (props) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [filter, setFilter] = React.useState("");
     const [openCPanel, setOpenCPanel] = React.useState(false);
+    const [editForm, setEditForm] = React.useState({});
+    const [regionToEdit, setRegionToEdit] = React.useState(null);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -286,6 +296,30 @@ const Dashboard = (props) => {
 
     const handleOpenCPanel = () => {
         setOpenCPanel((openCPanel) => !openCPanel);
+    };
+
+    const handleOpenEditForm = (row) => {
+        if (row) {
+            setRegionToEdit(row.number);
+            setEditForm({
+                owner: row.owner,
+                tl_coords: `${row.tl_coords.x} ${row.tl_coords.y}`,
+                // tr_coords: `${row.tr_coords.x} ${row.tr_coords.y}`,
+                // br_coords: `${row.br_coords.x} ${row.br_coords.y}`,
+                // bl_coords: `${row.bl_coords.x} ${row.bl_coords.y}`,
+            });
+        } else {
+            setRegionToEdit(null);
+            setEditForm(null);
+        }
+    };
+
+    const handleChangeEditForm = (event) => {
+        event.persist();
+        setEditForm((editForm) => ({
+            ...editForm,
+            [event.target.name]: event.target.value,
+        }));
     };
 
     const emptyRows =
@@ -331,7 +365,123 @@ const Dashboard = (props) => {
                                     page * rowsPerPage + rowsPerPage
                                 )
                                 .map((row, index) => {
-                                    return (
+                                    return regionToEdit === row.number ? (
+                                        <StyledTableRow
+                                            tabIndex={-1}
+                                            key={index}
+                                        >
+                                            <TableCell align="left">
+                                                {row.number}
+                                            </TableCell>
+                                            <StyledTableCell
+                                                align="left"
+                                                padding={"none"}
+                                            >
+                                                <TextField
+                                                    id="outlined-secondary"
+                                                    label="Owner"
+                                                    variant="standard"
+                                                    color="secondary"
+                                                    size="small"
+                                                    onChange={
+                                                        handleChangeEditForm
+                                                    }
+                                                    value={editForm.owner}
+                                                    name="owner"
+                                                />
+                                            </StyledTableCell>
+                                            <TableCell align="left">
+                                                {row.for_sale ? "Yes" : "No"}
+                                            </TableCell>
+                                            <StyledTableCell
+                                                align="left"
+                                                padding={"none"}
+                                            >
+                                                <TextField
+                                                    id="outlined-secondary"
+                                                    label="Top Left"
+                                                    variant="standard"
+                                                    color="secondary"
+                                                    size="small"
+                                                    onChange={
+                                                        handleChangeEditForm
+                                                    }
+                                                    value={editForm.tl_coords}
+                                                    name="tl_coords"
+                                                />
+                                            </StyledTableCell>
+                                            <StyledTableCell
+                                                align="left"
+                                                padding={"none"}
+                                            >
+                                                <TextField
+                                                    id="outlined-secondary"
+                                                    label="Top Right"
+                                                    variant="standard"
+                                                    color="secondary"
+                                                    size="small"
+                                                    onChange={
+                                                        handleChangeEditForm
+                                                    }
+                                                    value={editForm.tl_coords}
+                                                />
+                                            </StyledTableCell>
+                                            <StyledTableCell
+                                                align="left"
+                                                padding={"none"}
+                                            >
+                                                <TextField
+                                                    id="outlined-secondary"
+                                                    label="Bot Right"
+                                                    variant="standard"
+                                                    color="secondary"
+                                                    size="small"
+                                                    onChange={
+                                                        handleChangeEditForm
+                                                    }
+                                                    value={editForm.tl_coords}
+                                                />
+                                            </StyledTableCell>
+                                            <StyledTableCell
+                                                align="left"
+                                                padding={"none"}
+                                            >
+                                                <TextField
+                                                    id="outlined-secondary"
+                                                    label="Bot Left"
+                                                    variant="standard"
+                                                    color="secondary"
+                                                    size="small"
+                                                    onChange={
+                                                        handleChangeEditForm
+                                                    }
+                                                    value={editForm.tl_coords}
+                                                />
+                                            </StyledTableCell>
+                                            {true && (
+                                                <TableCell
+                                                    align="left"
+                                                    padding={"none"}
+                                                >
+                                                    <IconButton aria-label="edit">
+                                                        <CheckIcon
+                                                            fontSize={"small"}
+                                                        />
+                                                    </IconButton>
+                                                    <IconButton aria-label="delete">
+                                                        <CloseIcon
+                                                            fontSize={"small"}
+                                                            onClick={() =>
+                                                                handleOpenEditForm(
+                                                                    null
+                                                                )
+                                                            }
+                                                        />
+                                                    </IconButton>
+                                                </TableCell>
+                                            )}
+                                        </StyledTableRow>
+                                    ) : (
                                         <StyledTableRow
                                             hover
                                             tabIndex={-1}
@@ -365,7 +515,14 @@ const Dashboard = (props) => {
                                                     align="left"
                                                     padding={"none"}
                                                 >
-                                                    <IconButton aria-label="edit">
+                                                    <IconButton
+                                                        aria-label="edit"
+                                                        onClick={() =>
+                                                            handleOpenEditForm(
+                                                                row
+                                                            )
+                                                        }
+                                                    >
                                                         <EditIcon
                                                             fontSize={"small"}
                                                         />

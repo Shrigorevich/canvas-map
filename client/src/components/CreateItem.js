@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateItem = (props) => {
-    console.log(props);
     const classes = useStyles();
 
     const dispatch = useDispatch();

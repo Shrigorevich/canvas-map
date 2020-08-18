@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 
 import theme from "./components/theme";
-import Dashboard from "./pages/dashboard";
-import { getProfile } from "./redux/actions";
+import Main from "./pages/main";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 const App = (props) => {
@@ -15,7 +14,7 @@ const App = (props) => {
             <Router>
                 <Switch>
                     <Route path="/">
-                        <Dashboard />
+                        <Main />
                     </Route>
                 </Switch>
             </Router>
@@ -30,8 +29,6 @@ const App = (props) => {
 //     };
 // };
 
-const mapDispatchToProps = {
-    getProfile,
-};
+const mapDispatchToProps = {};
 
 export default connect(null, mapDispatchToProps)(App);

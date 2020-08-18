@@ -38,14 +38,15 @@ function drawImage(stage, layerForImage, currentScale) {
 }
 
 function drawSites(stage, layerForSites, currentScale, data) {
+    console.log("Draw sites: ", data.civilian_sites);
     const blocksToDraw = scaleToBlocks(currentScale);
 
     // const offsetX = -Math.round(stage.x() / (CELL_SIZE * currentScale));
     // const offsetY = -Math.round(stage.y() / (CELL_SIZE * currentScale));
 
     var rect = new Konva.Rect({
-        x: 0, //item.left_arc.x * CELL_SIZE,
-        y: 0, //item.left_arc.y * CELL_SIZE,
+        x: 0, //item.tla_coords.x * CELL_SIZE,
+        y: 0, //item.tla_coords.y * CELL_SIZE,
         width: 0, //item.width * CELL_SIZE,
         height: 0, //item.height * CELL_SIZE,
         fill: "", //item.free ? "#ccc" : "green",
@@ -57,8 +58,8 @@ function drawSites(stage, layerForSites, currentScale, data) {
     });
 
     var text = new Konva.Text({
-        x: 0, //(item.left_arc.x + 2) * CELL_SIZE,
-        y: 0, // (item.left_arc.y + 4) * CELL_SIZE,
+        x: 0, //(item.tla_coords.x + 2) * CELL_SIZE,
+        y: 0, // (item.tla_coords.y + 4) * CELL_SIZE,
         text: null, //item.number,
         fontSize: 8,
         fontFamily: "Segoe UI",
@@ -71,8 +72,8 @@ function drawSites(stage, layerForSites, currentScale, data) {
 
     data.civilian_sites.forEach((item) => {
         cloneRect = rect.clone({
-            x: item.left_arc.x * CELL_SIZE,
-            y: item.left_arc.y * CELL_SIZE,
+            x: item.tla_coords.x * CELL_SIZE,
+            y: item.tla_coords.y * CELL_SIZE,
             width: item.width * CELL_SIZE,
             height: item.height * CELL_SIZE,
             fill: item.free ? "#ccc" : "green",
@@ -81,8 +82,8 @@ function drawSites(stage, layerForSites, currentScale, data) {
         });
 
         cloneText = text.clone({
-            x: (item.left_arc.x + 2) * CELL_SIZE,
-            y: (item.left_arc.y + 4) * CELL_SIZE,
+            x: (item.tla_coords.x + 2) * CELL_SIZE,
+            y: (item.tla_coords.y + 4) * CELL_SIZE,
             text: item.number,
         });
 
@@ -100,8 +101,8 @@ function drawSites(stage, layerForSites, currentScale, data) {
                 (attrs.width * attrs.height) / 2
             } m2)</span>
             <h4>Coordinates (Top Left Angle): </h4>
-            <span><b>X: </b>${attrs.details.left_arc.x} <b>Y: </b>${
-                attrs.details.left_arc.y
+            <span><b>X: </b>${attrs.details.tla_coords.x} <b>Y: </b>${
+                attrs.details.tla_coords.y
             }</span>`;
         });
 
@@ -115,8 +116,8 @@ function drawSites(stage, layerForSites, currentScale, data) {
 
     data.admin_sites.forEach((item) => {
         var rect = new Konva.Rect({
-            x: item.left_arc.x * CELL_SIZE,
-            y: item.left_arc.y * CELL_SIZE,
+            x: item.tla_coords.x * CELL_SIZE,
+            y: item.tla_coords.y * CELL_SIZE,
             width: item.width * CELL_SIZE,
             height: item.height * CELL_SIZE,
             fill: item.color,
@@ -127,8 +128,8 @@ function drawSites(stage, layerForSites, currentScale, data) {
         });
 
         var text = new Konva.Text({
-            x: (item.left_arc.x + item.width / 2 - 6) * CELL_SIZE,
-            y: (item.left_arc.y + item.height / 2 - 6) * CELL_SIZE,
+            x: (item.tla_coords.x + item.width / 2 - 6) * CELL_SIZE,
+            y: (item.tla_coords.y + item.height / 2 - 6) * CELL_SIZE,
             text: item.name,
             fontSize: 8,
             fontFamily: "Segoe UI",
@@ -305,7 +306,7 @@ function main(data) {
 
 async function getDataToStart() {
     try {
-        const respons = await fetch("/get-data", {
+        const respons = await fetch("http://localhost:5000/get-regions", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -313,7 +314,7 @@ async function getDataToStart() {
         });
 
         const data = await respons.json();
-
+        console.log(data);
         main(data);
     } catch (error) {
         console.log(error);

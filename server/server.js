@@ -1,28 +1,46 @@
 const express = require("express");
 const path = require("path");
-const app = express();
 const bodyParser = require("body-parser");
 const AdminRegion = require("./models/AdminRegion");
 const CivilRegion = require("./models/CivilRegion");
-
 const cors = require("cors");
 const connectDB = require("./db");
+const data_set = require("./data-set");
 
+const app = express();
 connectDB();
 
 app.use(bodyParser.json());
-
-const data_set = require("./data-set");
+app.use(cors());
 
 app.use("/map", express.static(path.join(__dirname, "public")));
 
-app.get("/get-data", (req, res) => {
-    console.log("GET DATA POINT");
-    res.status(200).json(data_set);
+app.use("/try-db", (req, res) => {
+    console.log("Try");
+    data_set.civilian_sites.forEach((item) => {
+        const region = new CivilRegion({
+            number: item.number,
+            owner: {
+                name: item.owner.name,
+                alive: item.owner.alive,
+            },
+            tl_coords: {
+                x: item.left_arc.x,
+                y: item.left_arc.y,
+            },
+            free: item.owner.name.length < 1,
+        });
+
+        region.save();
+    });
 });
 
-app.use("/try-db", async (req, res) => {
-    res.status(201).json({});
+app.get("/get-regions", async (req, res) => {
+    console.log("get regions");
+    const civilian_sites = await CivilRegion.find({});
+    const admin_sites = await AdminRegion.find({});
+
+    res.status(200).json({ civilian_sites, admin_sites });
 });
 
 if (process.env.NODE_ENV === "production") {
@@ -35,25 +53,13 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-const PORT = 80;
+const PORT = 5000;
 
 app.listen(PORT, function () {
     console.log(`Server is running.. on Port ${PORT}`);
 });
 
-// const region = new AdminRegion({
-//     number: item.number,
-//     owner: {
-//         name: item.owner.name,
-//         alive: item.owner.alive,
-//     },
-//     tla_coords: {
-//         x: item.left_arc.x,
-//         y: item.left_arc.y,
-//     },
-//     width: item.width,
-//     height: item.height,
-// });
+//
 
 // const region = new AdminRegion({
 //     name: item.name,

@@ -306,15 +306,12 @@ function main(data) {
 
 async function getDataToStart() {
     try {
-        const respons = await fetch(
-            "http://localhost:5000/regions/get-regions",
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
+        const respons = await fetch("http://localhost/regions/get-regions", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
         const data = await respons.json();
         console.log(data);

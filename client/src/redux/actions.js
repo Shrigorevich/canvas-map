@@ -10,7 +10,7 @@ export function fetchRegions() {
         try {
             console.log("fetch regions");
             const response = await fetch(
-                "http://localhost:5000/regions/get-regions",
+                "http://localhost/regions/get-regions",
                 {
                     method: "GET",
                     headers: {
@@ -41,7 +41,7 @@ export function createRegion(regionData) {
         try {
             console.log("Create regions");
             const response = await fetch(
-                "http://localhost:5000/regions/create-region",
+                "http://localhost/regions/create-region",
                 {
                     method: "POST",
                     body: JSON.stringify({

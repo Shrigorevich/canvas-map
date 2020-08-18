@@ -5,7 +5,6 @@ const AdminRegion = require("./models/AdminRegion");
 const CivilRegion = require("./models/CivilRegion");
 const cors = require("cors");
 const connectDB = require("./db");
-const data_set = require("./data-set");
 
 const app = express();
 connectDB();
@@ -15,33 +14,7 @@ app.use(cors());
 
 app.use("/map", express.static(path.join(__dirname, "public")));
 
-app.use("/try-db", (req, res) => {
-    console.log("Try");
-    data_set.civilian_sites.forEach((item) => {
-        const region = new CivilRegion({
-            number: item.number,
-            owner: {
-                name: item.owner.name,
-                alive: item.owner.alive,
-            },
-            tl_coords: {
-                x: item.left_arc.x,
-                y: item.left_arc.y,
-            },
-            free: item.owner.name.length < 1,
-        });
-
-        region.save();
-    });
-});
-
-app.get("/get-regions", async (req, res) => {
-    console.log("get regions");
-    const civilian_sites = await CivilRegion.find({});
-    const admin_sites = await AdminRegion.find({});
-
-    res.status(200).json({ civilian_sites, admin_sites });
-});
+app.use("/regions", require("./api/regions"));
 
 if (process.env.NODE_ENV === "production") {
     console.log("production");
@@ -53,13 +26,11 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-const PORT = 5000;
+const PORT = 80;
 
 app.listen(PORT, function () {
     console.log(`Server is running.. on Port ${PORT}`);
 });
-
-//
 
 // const region = new AdminRegion({
 //     name: item.name,

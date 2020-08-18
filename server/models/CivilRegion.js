@@ -3,7 +3,7 @@ const timestamps = require("mongoose-timestamp");
 
 const UserSchema = new mongoose.Schema({
     number: { type: Number, required: true },
-    owner: { type: {}, required: false },
+    owner: { type: String, required: false },
     tl_coords: {
         type: {
             x: { type: Number, required: true },
@@ -32,7 +32,8 @@ const UserSchema = new mongoose.Schema({
         },
         required: false,
     },
-    free: { type: Boolean, required: true },
+    for_sale: { type: Boolean, required: true },
+    description: { type: String, required: false },
 });
 
 UserSchema.plugin(timestamps);

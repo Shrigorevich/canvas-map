@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { lighten, makeStyles } from "@material-ui/core/styles";
+import { lighten, makeStyles, withStyles } from "@material-ui/core/styles";
 import {
     Table,
     Box,
@@ -23,8 +23,10 @@ import {
     FormControlLabel,
     Switch,
 } from "@material-ui/core";
+import { grey, lightGreen } from "@material-ui/core/colors";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import EditIcon from "@material-ui/icons/Edit";
 import { SpeedDial, SpeedDialIcon } from "@material-ui/lab";
 
 import CreateItem from "./CreateItem";
@@ -54,110 +56,6 @@ function stableSort(array, comparator) {
     });
     return stabilizedThis.map((el) => el[0]);
 }
-
-const headCells = [
-    { id: "free", numeric: false, disablePadding: false, label: "Free" },
-    {
-        id: "tl_coords",
-        numeric: true,
-        disablePadding: false,
-        label: "Top Left",
-    },
-    {
-        id: "tr_coords",
-        numeric: true,
-        disablePadding: false,
-        label: "Top Right",
-    },
-    {
-        id: "br_coords",
-        numeric: true,
-        disablePadding: false,
-        label: "Bot Right",
-    },
-    {
-        id: "bl_coords",
-        numeric: true,
-        disablePadding: false,
-        label: "Bot Left",
-    },
-];
-
-const EnhancedTableHead = (props) => {
-    const {
-        classes,
-        order,
-        orderBy,
-        rowCount,
-        onRequestSort,
-        changeFilter,
-    } = props;
-
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
-
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell
-                    align={"left"}
-                    padding={"default"}
-                    sortDirection={orderBy === "number" ? order : false}
-                >
-                    <TableSortLabel
-                        active={orderBy === "number"}
-                        direction={orderBy === "number" ? order : "asc"}
-                        onClick={createSortHandler("number")}
-                    >
-                        №
-                        {orderBy === "number" ? (
-                            <span className={classes.visuallyHidden}>
-                                {order === "desc"
-                                    ? "sorted descending"
-                                    : "sorted ascending"}
-                            </span>
-                        ) : null}
-                    </TableSortLabel>
-                </TableCell>
-                <TableCell
-                    key={"owner"}
-                    align={"left"}
-                    padding={"none"}
-                    sortDirection={orderBy === "owner" ? order : false}
-                >
-                    <TextField
-                        id="outlined-secondary"
-                        label="Owner"
-                        variant="outlined"
-                        color="secondary"
-                        size="small"
-                        onChange={changeFilter}
-                    />
-                </TableCell>
-
-                {headCells.map((headCell) => (
-                    <TableCell
-                        key={headCell.id}
-                        align={"left"}
-                        padding={headCell.disablePadding ? "none" : "default"}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
-                        {headCell.label}
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-    );
-};
-
-EnhancedTableHead.propTypes = {
-    classes: PropTypes.object.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-};
 
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
@@ -221,7 +119,136 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.secondary.light,
         },
     },
+    head: {
+        backgroundColor: grey[900],
+    },
 }));
+
+const StyledTableRow = withStyles((theme) => ({
+    root: {
+        "&:nth-of-type(odd)": {
+            backgroundColor: theme.palette.action.hover,
+        },
+        "&:hover": {
+            backgroundColor: `${theme.palette.primary.main} !important`,
+            color: "#000 !important",
+        },
+    },
+}))(TableRow);
+
+const headCells = [
+    {
+        id: "for_sale",
+        numeric: false,
+        disablePadding: false,
+        label: "For Sale",
+    },
+    {
+        id: "tl_coords",
+        numeric: true,
+        disablePadding: false,
+        label: "Top Left",
+    },
+    {
+        id: "tr_coords",
+        numeric: true,
+        disablePadding: false,
+        label: "Top Right",
+    },
+    {
+        id: "br_coords",
+        numeric: true,
+        disablePadding: false,
+        label: "Bot Right",
+    },
+    {
+        id: "bl_coords",
+        numeric: true,
+        disablePadding: false,
+        label: "Bot Left",
+    },
+];
+
+const EnhancedTableHead = (props) => {
+    const {
+        classes,
+        order,
+        orderBy,
+        rowCount,
+        onRequestSort,
+        changeFilter,
+    } = props;
+
+    const createSortHandler = (property) => (event) => {
+        onRequestSort(event, property);
+    };
+
+    return (
+        <TableHead className={classes.head}>
+            <TableRow>
+                <TableCell
+                    align={"left"}
+                    padding={"default"}
+                    sortDirection={orderBy === "number" ? order : false}
+                >
+                    <TableSortLabel
+                        active={orderBy === "number"}
+                        direction={orderBy === "number" ? order : "asc"}
+                        onClick={createSortHandler("number")}
+                    >
+                        №
+                        {orderBy === "number" ? (
+                            <span className={classes.visuallyHidden}>
+                                {order === "desc"
+                                    ? "sorted descending"
+                                    : "sorted ascending"}
+                            </span>
+                        ) : null}
+                    </TableSortLabel>
+                </TableCell>
+                <TableCell
+                    key={"owner"}
+                    align={"left"}
+                    padding={"none"}
+                    sortDirection={orderBy === "owner" ? order : false}
+                >
+                    <TextField
+                        id="outlined-secondary"
+                        label="Owner"
+                        variant="outlined"
+                        color="secondary"
+                        size="small"
+                        onChange={changeFilter}
+                    />
+                </TableCell>
+
+                {headCells.map((headCell) => (
+                    <TableCell
+                        key={headCell.id}
+                        align={"left"}
+                        padding={headCell.disablePadding ? "none" : "default"}
+                        sortDirection={orderBy === headCell.id ? order : false}
+                    >
+                        {headCell.label}
+                    </TableCell>
+                ))}
+                {true && (
+                    <TableCell align={"left"} padding={"default"}>
+                        Actions
+                    </TableCell>
+                )}
+            </TableRow>
+        </TableHead>
+    );
+};
+
+EnhancedTableHead.propTypes = {
+    classes: PropTypes.object.isRequired,
+    onRequestSort: PropTypes.func.isRequired,
+    order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+    orderBy: PropTypes.string.isRequired,
+    rowCount: PropTypes.number.isRequired,
+};
 
 const Dashboard = (props) => {
     const classes = useStyles();
@@ -258,7 +285,6 @@ const Dashboard = (props) => {
     };
 
     const handleOpenCPanel = () => {
-        console.log("handleCPanel");
         setOpenCPanel((openCPanel) => !openCPanel);
     };
 
@@ -296,7 +322,7 @@ const Dashboard = (props) => {
                                 getComparator(order, orderBy)
                             )
                                 .filter((item) =>
-                                    item.owner.name
+                                    item.owner
                                         .toLowerCase()
                                         .includes(filter.toLowerCase())
                                 )
@@ -306,7 +332,7 @@ const Dashboard = (props) => {
                                 )
                                 .map((row, index) => {
                                     return (
-                                        <TableRow
+                                        <StyledTableRow
                                             hover
                                             tabIndex={-1}
                                             key={index}
@@ -315,10 +341,10 @@ const Dashboard = (props) => {
                                                 {row.number}
                                             </TableCell>
                                             <TableCell align="left">
-                                                {row.owner.name}
+                                                {row.owner}
                                             </TableCell>
                                             <TableCell align="left">
-                                                {row.free ? "Yes" : "No"}
+                                                {row.for_sale ? "Yes" : "No"}
                                             </TableCell>
                                             <TableCell align="left">
                                                 {row.tl_coords.x +
@@ -334,7 +360,24 @@ const Dashboard = (props) => {
                                             <TableCell align="left">
                                                 -
                                             </TableCell>
-                                        </TableRow>
+                                            {true && (
+                                                <TableCell
+                                                    align="left"
+                                                    padding={"none"}
+                                                >
+                                                    <IconButton aria-label="edit">
+                                                        <EditIcon
+                                                            fontSize={"small"}
+                                                        />
+                                                    </IconButton>
+                                                    <IconButton aria-label="delete">
+                                                        <DeleteIcon
+                                                            fontSize={"small"}
+                                                        />
+                                                    </IconButton>
+                                                </TableCell>
+                                            )}
+                                        </StyledTableRow>
                                     );
                                 })}
                             {emptyRows > 0 && (
@@ -370,7 +413,7 @@ const Dashboard = (props) => {
                     />
                 </Box>
             </Paper>
-            {openCPanel && <CreateItem />}
+            <CreateItem status={openCPanel} />
         </div>
     );
 };

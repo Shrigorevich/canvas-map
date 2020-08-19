@@ -647,7 +647,7 @@ const Dashboard = (props) => {
                     />
                 </Box>
             </Paper>
-            <CreateItem status={openCPanel} />
+            <CreateItem status={openCPanel} close={handleOpenCPanel} />
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { createRegion } from "./../redux/actions";
-import { TextField, Grid, Box, Button, Switch } from "@material-ui/core";
+import { TextField, Grid, Box, Button, Switch, Link } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import theme from "./theme";
@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     buttonGroup: {
         display: "flex",
         justifyContent: "space-between",
+    },
+    btnMargin: {
+        margin: "0 8px 0 0",
     },
 }));
 
@@ -91,6 +94,7 @@ const CreateItem = (props) => {
                             }}
                             onChange={handleChangeForm}
                             value={form.number}
+                            fullWidth
                         />
                     </Grid>
                     <Grid item xs={6}>
@@ -103,6 +107,7 @@ const CreateItem = (props) => {
                             }}
                             onChange={handleChangeForm}
                             value={form.owner}
+                            fullWidth
                         />
                     </Grid>
                     <Grid item xs={6}>
@@ -115,6 +120,7 @@ const CreateItem = (props) => {
                             }}
                             onChange={handleChangeForm}
                             value={form.tl_coords}
+                            fullWidth
                         />
                     </Grid>
                     <Grid item xs={6}>
@@ -127,6 +133,7 @@ const CreateItem = (props) => {
                             }}
                             onChange={handleChangeForm}
                             value={form.tr_coords}
+                            fullWidth
                         />
                     </Grid>
                     <Grid item xs={6}>
@@ -139,6 +146,7 @@ const CreateItem = (props) => {
                             }}
                             onChange={handleChangeForm}
                             value={form.bl_coords}
+                            fullWidth
                         />
                     </Grid>
                     <Grid item xs={6}>
@@ -151,6 +159,7 @@ const CreateItem = (props) => {
                             }}
                             onChange={handleChangeForm}
                             value={form.br_coords}
+                            fullWidth
                         />
                     </Grid>
 
@@ -168,6 +177,7 @@ const CreateItem = (props) => {
                             }}
                             onChange={handleChangeForm}
                             value={form.description}
+                            fullWidth
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -179,16 +189,29 @@ const CreateItem = (props) => {
                         />
                     </Grid>
                     <Grid item xs={12} className={classes.buttonGroup}>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={handleCreateRegion}
+                        <Box className={classes.buttonGroup}>
+                            <Button
+                                className={classes.btnMargin}
+                                variant="contained"
+                                color="secondary"
+                                onClick={handleCreateRegion}
+                            >
+                                Create
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleClearForm}
+                            >
+                                Clear
+                            </Button>
+                        </Box>
+                        <Link
+                            component="button"
+                            variant="body1"
+                            onClick={props.close}
                         >
-                            Create
-                        </Button>
-                        <Button variant="contained" onClick={handleClearForm}>
-                            Clear
-                        </Button>
+                            Cancel
+                        </Link>
                     </Grid>
                 </Grid>
             </Grid>

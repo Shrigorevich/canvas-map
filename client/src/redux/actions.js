@@ -3,21 +3,20 @@ import {
     SHOW_LOADER,
     HIDE_LOADER,
     CREATE_REGION,
+    CHANGE_REGION,
+    DELETE_REGION,
 } from "./types";
 
 export function fetchRegions() {
     return async (dispatch) => {
         try {
             console.log("fetch regions");
-            const response = await fetch(
-                "http://localhost:5000/regions/get-regions",
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const response = await fetch("/regions/get-regions", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
             if (!response.ok) {
                 console.log("Not ok: ", response);
@@ -41,18 +40,15 @@ export function createRegion(regionData) {
         try {
             console.log("Create regions");
             //http://localhost
-            const response = await fetch(
-                "http://localhost/regions/create-region",
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        regionData,
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const response = await fetch("/regions/create-region", {
+                method: "POST",
+                body: JSON.stringify({
+                    regionData,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
             if (!response.ok) {
                 console.log("Not ok: ", response);
@@ -65,6 +61,73 @@ export function createRegion(regionData) {
                 type: CREATE_REGION,
                 payload: json,
             });
+            dispatch(fetchRegions());
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+
+export function changeRegion(regionData) {
+    return async (dispatch) => {
+        try {
+            console.log("Change region");
+            //http://localhost
+            const response = await fetch("/regions/change-region", {
+                method: "POST",
+                body: JSON.stringify({
+                    regionData,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                console.log("Not ok: ", response);
+            }
+
+            const json = await response.json();
+            console.log(json);
+
+            dispatch({
+                type: CHANGE_REGION,
+                payload: json,
+            });
+            dispatch(fetchRegions());
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+
+export function deleteRegion(regionNumber) {
+    return async (dispatch) => {
+        try {
+            console.log("Delete region");
+            //http://localhost:5000
+            const response = await fetch("/regions/delete-region", {
+                method: "POST",
+                body: JSON.stringify({
+                    regionNumber,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                console.log("Not ok: ", response);
+            }
+
+            const json = await response.json();
+            console.log(json);
+
+            dispatch({
+                type: DELETE_REGION,
+                payload: json,
+            });
+            dispatch(fetchRegions());
         } catch (error) {
             console.log(error);
         }

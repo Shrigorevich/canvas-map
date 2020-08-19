@@ -76,7 +76,7 @@ function drawSites(stage, layerForSites, currentScale, data) {
             y: item.tl_coords.y * CELL_SIZE,
             width: 10 * CELL_SIZE,
             height: 10 * CELL_SIZE,
-            fill: item.free ? "#ccc" : "green",
+            fill: item.for_sale ? "#ccc" : "#90caf9",
             stroke: item.owner.alive ? "black" : "red",
             details: item,
         });
@@ -90,21 +90,21 @@ function drawSites(stage, layerForSites, currentScale, data) {
         cloneRect.cache();
         cloneText.cache();
 
-        // cloneRect.on("mouseover", (e) => {
-        //     e.target.opacity(1);
-        //     layerForSites.batchDraw();
-        //     const attrs = e.target.attrs;
-        //     document.getElementById("object-data").innerHTML = `<h4>Owner:</h4>
-        //     <span>${attrs.details.owner}</span>
-        //     <h4>Area size: </h4>
-        //     <span>${attrs.width / 2}x${attrs.height / 2} (${
-        //         (attrs.width * attrs.height) / 2
-        //     } m2)</span>
-        //     <h4>Coordinates (Top Left Angle): </h4>
-        //     <span><b>X: </b>${attrs.details.tl_coords.x} <b>Y: </b>${
-        //         attrs.details.tl_coords.y
-        //     }</span>`;
-        // });
+        cloneRect.on("mouseover", (e) => {
+            e.target.opacity(1);
+            layerForSites.batchDraw();
+            const attrs = e.target.attrs;
+            document.getElementById("object-data").innerHTML = `<h4>Owner:</h4>
+            <span>${attrs.details.owner}</span>
+            <h4>Area size: </h4>
+            <span>${attrs.width / 2}x${attrs.height / 2} (${
+                (attrs.width * attrs.height) / 2
+            } m2)</span>
+            <h4>Coordinates (Top Left Angle): </h4>
+            <span><b>X: </b>${attrs.details.tl_coords.x} <b>Y: </b>${
+                attrs.details.tl_coords.y
+            }</span>`;
+        });
 
         cloneRect.on("mouseout", (e) => {
             e.target.opacity(0.7);

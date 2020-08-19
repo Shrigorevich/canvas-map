@@ -1,5 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import { changeRegion, fetchRegions, deleteRegion } from "../redux/actions";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { lighten, makeStyles, withStyles } from "@material-ui/core/styles";
@@ -22,6 +23,7 @@ import {
     Tooltip,
     FormControlLabel,
     Switch,
+    Link,
 } from "@material-ui/core";
 import { grey, lightGreen } from "@material-ui/core/colors";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -124,6 +126,23 @@ const useStyles = makeStyles((theme) => ({
     head: {
         backgroundColor: grey[900],
     },
+    title: {
+        margin: "0 6px 0 0",
+    },
+    bar: {
+        display: "flex",
+        alignItems: "center",
+        padding: "6px 0 6px 0",
+    },
+    barItem: {
+        color: grey[400],
+        fontSize: "1.1rem",
+        "&:hover": {
+            color: theme.palette.secondary.main,
+            textDecoration: "none",
+        },
+        margin: "0 6px 0 6px",
+    },
 }));
 
 const StyledTableRow = withStyles((theme) => ({
@@ -152,6 +171,12 @@ const headCells = [
         label: "For Sale",
     },
     {
+        id: "bl_coords",
+        numeric: true,
+        disablePadding: false,
+        label: "Bot Left",
+    },
+    {
         id: "tl_coords",
         numeric: true,
         disablePadding: false,
@@ -168,12 +193,6 @@ const headCells = [
         numeric: true,
         disablePadding: false,
         label: "Bot Right",
-    },
-    {
-        id: "bl_coords",
-        numeric: true,
-        disablePadding: false,
-        label: "Bot Left",
     },
 ];
 
@@ -260,11 +279,12 @@ EnhancedTableHead.propTypes = {
 
 const Dashboard = (props) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [order, setOrder] = React.useState("asc");
     const [orderBy, setOrderBy] = React.useState("number");
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(15);
     const [filter, setFilter] = React.useState("");
     const [openCPanel, setOpenCPanel] = React.useState(false);
     const [editForm, setEditForm] = React.useState({});
@@ -302,11 +322,13 @@ const Dashboard = (props) => {
         if (row) {
             setRegionToEdit(row.number);
             setEditForm({
+                number: row.number,
                 owner: row.owner,
                 tl_coords: `${row.tl_coords.x} ${row.tl_coords.y}`,
-                // tr_coords: `${row.tr_coords.x} ${row.tr_coords.y}`,
-                // br_coords: `${row.br_coords.x} ${row.br_coords.y}`,
-                // bl_coords: `${row.bl_coords.x} ${row.bl_coords.y}`,
+                tr_coords: `${row.tr_coords?.x} ${row.tr_coords?.y}`,
+                br_coords: `${row.br_coords?.x} ${row.br_coords?.y}`,
+                bl_coords: `${row.bl_coords?.x} ${row.bl_coords?.y}`,
+                for_sale: row.for_sale,
             });
         } else {
             setRegionToEdit(null);
@@ -322,15 +344,43 @@ const Dashboard = (props) => {
         }));
     };
 
-    const emptyRows =
-        rowsPerPage -
-        Math.min(
-            rowsPerPage,
-            props.regions.civilian_sites.length - page * rowsPerPage
-        );
+    const handleSwitch = (event) => {
+        setEditForm((editForm) => ({
+            ...editForm,
+            [event.target.name]: event.target.checked,
+        }));
+    };
+
+    const confirmChanges = () => {
+        dispatch(changeRegion(editForm));
+        setRegionToEdit(null);
+        setEditForm({});
+    };
+
+    const handleDeleteRegion = (number) => {
+        dispatch(deleteRegion(number));
+    };
+
+    // const emptyRows =
+    //     rowsPerPage -
+    //     Math.min(
+    //         rowsPerPage,
+    //         props.regions.civilian_sites.length - page * rowsPerPage
+    //     );
 
     return (
         <div className={classes.root}>
+            <Box className={classes.bar}>
+                <Typography className={classes.title} variant="h5">
+                    JERONIYA
+                </Typography>
+                <Link
+                    href="http://localhost:5000/map"
+                    className={classes.barItem}
+                >
+                    MAP
+                </Link>
+            </Box>
             <button className={classes.speedDial} onClick={handleOpenCPanel}>
                 <SpeedDialIcon />
             </button>
@@ -390,9 +440,30 @@ const Dashboard = (props) => {
                                                     name="owner"
                                                 />
                                             </StyledTableCell>
-                                            <TableCell align="left">
-                                                {row.for_sale ? "Yes" : "No"}
-                                            </TableCell>
+                                            <StyledTableCell align="left">
+                                                <Switch
+                                                    name="for_sale"
+                                                    onChange={handleSwitch}
+                                                    checked={editForm.for_sale}
+                                                />
+                                            </StyledTableCell>
+                                            <StyledTableCell
+                                                align="left"
+                                                padding={"none"}
+                                            >
+                                                <TextField
+                                                    id="outlined-secondary"
+                                                    label="Bot Left"
+                                                    variant="standard"
+                                                    color="secondary"
+                                                    size="small"
+                                                    onChange={
+                                                        handleChangeEditForm
+                                                    }
+                                                    value={editForm.bl_coords}
+                                                    name="bl_coords"
+                                                />
+                                            </StyledTableCell>
                                             <StyledTableCell
                                                 align="left"
                                                 padding={"none"}
@@ -423,7 +494,8 @@ const Dashboard = (props) => {
                                                     onChange={
                                                         handleChangeEditForm
                                                     }
-                                                    value={editForm.tl_coords}
+                                                    value={editForm.tr_coords}
+                                                    name="tr_coords"
                                                 />
                                             </StyledTableCell>
                                             <StyledTableCell
@@ -439,43 +511,34 @@ const Dashboard = (props) => {
                                                     onChange={
                                                         handleChangeEditForm
                                                     }
-                                                    value={editForm.tl_coords}
+                                                    value={editForm.br_coords}
+                                                    name="br_coords"
                                                 />
                                             </StyledTableCell>
-                                            <StyledTableCell
-                                                align="left"
-                                                padding={"none"}
-                                            >
-                                                <TextField
-                                                    id="outlined-secondary"
-                                                    label="Bot Left"
-                                                    variant="standard"
-                                                    color="secondary"
-                                                    size="small"
-                                                    onChange={
-                                                        handleChangeEditForm
-                                                    }
-                                                    value={editForm.tl_coords}
-                                                />
-                                            </StyledTableCell>
+
                                             {true && (
                                                 <TableCell
                                                     align="left"
                                                     padding={"none"}
                                                 >
-                                                    <IconButton aria-label="edit">
+                                                    <IconButton
+                                                        aria-label="edit"
+                                                        onClick={confirmChanges}
+                                                    >
                                                         <CheckIcon
                                                             fontSize={"small"}
                                                         />
                                                     </IconButton>
-                                                    <IconButton aria-label="delete">
+                                                    <IconButton
+                                                        aria-label="delete"
+                                                        onClick={() =>
+                                                            handleOpenEditForm(
+                                                                null
+                                                            )
+                                                        }
+                                                    >
                                                         <CloseIcon
                                                             fontSize={"small"}
-                                                            onClick={() =>
-                                                                handleOpenEditForm(
-                                                                    null
-                                                                )
-                                                            }
                                                         />
                                                     </IconButton>
                                                 </TableCell>
@@ -497,19 +560,26 @@ const Dashboard = (props) => {
                                                 {row.for_sale ? "Yes" : "No"}
                                             </TableCell>
                                             <TableCell align="left">
+                                                {row.bl_coords?.x +
+                                                    " : " +
+                                                    row.bl_coords?.y}
+                                            </TableCell>
+                                            <TableCell align="left">
                                                 {row.tl_coords.x +
                                                     " : " +
                                                     row.tl_coords.y}
                                             </TableCell>
                                             <TableCell align="left">
-                                                -
+                                                {row.tr_coords?.x +
+                                                    " : " +
+                                                    row.tr_coords?.y}
                                             </TableCell>
                                             <TableCell align="left">
-                                                -
+                                                {row.br_coords?.x +
+                                                    " : " +
+                                                    row.br_coords?.y}
                                             </TableCell>
-                                            <TableCell align="left">
-                                                -
-                                            </TableCell>
+
                                             {true && (
                                                 <TableCell
                                                     align="left"
@@ -527,7 +597,14 @@ const Dashboard = (props) => {
                                                             fontSize={"small"}
                                                         />
                                                     </IconButton>
-                                                    <IconButton aria-label="delete">
+                                                    <IconButton
+                                                        aria-label="delete"
+                                                        onClick={() =>
+                                                            handleDeleteRegion(
+                                                                row.number
+                                                            )
+                                                        }
+                                                    >
                                                         <DeleteIcon
                                                             fontSize={"small"}
                                                         />
@@ -537,7 +614,7 @@ const Dashboard = (props) => {
                                         </StyledTableRow>
                                     );
                                 })}
-                            {emptyRows > 0 && (
+                            {/* {emptyRows > 0 && (
                                 <TableRow
                                     style={{
                                         height: (dense ? 33 : 53) * emptyRows,
@@ -545,13 +622,13 @@ const Dashboard = (props) => {
                                 >
                                     <TableCell colSpan={6} />
                                 </TableRow>
-                            )}
+                            )} */}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <Box className={classes.box}>
                     <TablePagination
-                        rowsPerPageOptions={[5, 10, 15, 25]}
+                        rowsPerPageOptions={[5, 10, 15, 25, 75]}
                         component="div"
                         count={props.regions.civilian_sites.length}
                         rowsPerPage={rowsPerPage}

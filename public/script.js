@@ -7,7 +7,7 @@ const WORLD_SIZE = WORLD_CELL_COUNT * CELL_SIZE; // pixels
 
 const DEFAULT_SCALE = 2.0;
 const SCALE_BY = 0.95;
-const MIN_SCALE = 0.5; //CANVAS_SIZE / (CELL_SIZE * 500); // where 150 is width/height of visible area
+const MIN_SCALE = 0.7; //CANVAS_SIZE / (CELL_SIZE * 500); // where 150 is width/height of visible area
 const MAX_SCALE = CANVAS_SIZE / (CELL_SIZE * 25); // where 10 is width/height of visible area
 // length = CANVAS_SIZE / SCALE / CELL_SIZE
 
@@ -178,23 +178,30 @@ function main(data) {
         height: CANVAS_SIZE,
         draggable: true,
         dragBoundFunc: function (pos) {
-            var x = Math.floor(pos.x / (CELL_SIZE * currentScale));
-            var y = Math.floor(pos.y / (CELL_SIZE * currentScale));
-            console.log(y, x);
+            const blocksToDraw = scaleToBlocks(currentScale);
+            var x = -Math.floor(pos.x / (CELL_SIZE * currentScale));
+            var y = -Math.floor(pos.y / (CELL_SIZE * currentScale));
+            //console.log(y, x);
             let newX = pos.x;
             let newY = pos.y;
-            if (x > 1249) {
+            if (x < -1249) {
+                console.log("left");
                 newX = 1249 * stage.scaleX() * CELL_SIZE;
             }
-            if (-y < 251) {
+            if (x + blocksToDraw > -750) {
+                console.log("right");
+                newX = -(-750 - blocksToDraw) * currentScale * CELL_SIZE;
+                console.log(newX, -750 - blocksToDraw);
+            }
+            if (y < 251) {
+                console.log("top");
                 newY = -251 * stage.scaleY() * CELL_SIZE;
             }
+            if (y + blocksToDraw > 750) {
+                console.log("bot");
+                newY = -(750 - blocksToDraw) * currentScale * CELL_SIZE;
+            }
 
-            // else if (-x > -750) {
-            //     newX = 750 * stage.scaleX() * CELL_SIZE + CANVAS_SIZE / 2;
-            // }
-            // 1054 * stage.scaleX() * CELL_SIZE + CANVAS_SIZE / 2,
-            // -509 * stage.scaleY() * CELL_SIZE + CANVAS_SIZE / 2,
             return {
                 x: newX,
                 y: newY,
@@ -281,7 +288,9 @@ function main(data) {
         }
     });
 
-    stage.on("click", (e) => {});
+    stage.on("click", (e) => {
+        console.log(stage.x(), stage.y());
+    });
 
     stage.on("mousemove", (e) => {
         var coord = stage.getPointerPosition();

@@ -1,5 +1,5 @@
-const CANVAS_SIZE = 600; // pixels
-const WORLD_CELL_COUNT = 45000; // blocks
+const CANVAS_SIZE = 700; // pixels
+const WORLD_CELL_COUNT = 4500; // blocks
 const CELL_SIZE = 2; // pixels
 const WORLD_SIZE = WORLD_CELL_COUNT * CELL_SIZE; // pixels
 
@@ -7,8 +7,8 @@ const WORLD_SIZE = WORLD_CELL_COUNT * CELL_SIZE; // pixels
 
 const DEFAULT_SCALE = 2.0;
 const SCALE_BY = 0.95;
-const MIN_SCALE = CANVAS_SIZE / (CELL_SIZE * 250); // where 150 is width/height of visible area
-const MAX_SCALE = CANVAS_SIZE / (CELL_SIZE * 20); // where 10 is width/height of visible area
+const MIN_SCALE = 0.5; //CANVAS_SIZE / (CELL_SIZE * 500); // where 150 is width/height of visible area
+const MAX_SCALE = CANVAS_SIZE / (CELL_SIZE * 25); // where 10 is width/height of visible area
 // length = CANVAS_SIZE / SCALE / CELL_SIZE
 
 function scaleToBlocks(scale) {
@@ -16,10 +16,10 @@ function scaleToBlocks(scale) {
 }
 
 function drawImage(stage, layerForImage, currentScale) {
-    const offsetX = -Math.round(stage.x() / (CELL_SIZE * currentScale));
-    const offsetY = -Math.round(stage.y() / (CELL_SIZE * currentScale));
+    //const offsetX = -Math.round(stage.x() / (CELL_SIZE * currentScale));
+    //const offsetY = -Math.round(stage.y() / (CELL_SIZE * currentScale));
 
-    console.log(offsetX, offsetY);
+    //console.log(offsetX, offsetY);
 
     var imageObj = new Image();
     imageObj.src = "./map.png";
@@ -41,56 +41,32 @@ function drawSites(stage, layerForSites, currentScale, data) {
     console.log("Draw sites: ", data.civilian_sites);
     const blocksToDraw = scaleToBlocks(currentScale);
 
-    // const offsetX = -Math.round(stage.x() / (CELL_SIZE * currentScale));
-    // const offsetY = -Math.round(stage.y() / (CELL_SIZE * currentScale));
-
-    var rect = new Konva.Rect({
-        x: 0, //item.tl_coords.x * CELL_SIZE,
-        y: 0, //item.tl_coords.y * CELL_SIZE,
-        width: 0, //item.width * CELL_SIZE,
-        height: 0, //item.height * CELL_SIZE,
-        fill: "", //item.free ? "#ccc" : "green",
-        details: null, //
-        opacity: 0.7,
-        stroke: null, //item.owner.alive ? "black" : "red",
-        strokeWidth: 0.7,
-        perfectDrawEnabled: false,
-    });
-
-    var text = new Konva.Text({
-        x: 0, //(item.tl_coords.x + 2) * CELL_SIZE,
-        y: 0, // (item.tl_coords.y + 4) * CELL_SIZE,
-        text: null, //item.number,
-        fontSize: 8,
-        fontFamily: "Segoe UI",
-        fill: "#000",
-        width: 35,
-    });
-
-    let cloneRect;
-    let cloneText;
-
     data.civilian_sites.forEach((item) => {
-        cloneRect = rect.clone({
+        var rect = new Konva.Rect({
             x: item.tl_coords.x * CELL_SIZE,
             y: item.tl_coords.y * CELL_SIZE,
             width: 10 * CELL_SIZE,
             height: 10 * CELL_SIZE,
-            fill: item.for_sale ? "#ccc" : "#90caf9",
-            stroke: item.owner.alive ? "black" : "red",
+            fill: item.for_sale ? "#ccc" : "#2196f3",
             details: item,
+            opacity: 0.7,
+            stroke: null,
+            strokeWidth: 0.7,
+            perfectDrawEnabled: false,
         });
 
-        cloneText = text.clone({
+        var text = new Konva.Text({
             x: (item.tl_coords.x + 2) * CELL_SIZE,
             y: (item.tl_coords.y + 4) * CELL_SIZE,
             text: item.number,
+            fontSize: 8,
+            fontFamily: "Segoe UI",
+            fill: "#000",
+            width: 35,
+            listening: false,
         });
 
-        cloneRect.cache();
-        cloneText.cache();
-
-        cloneRect.on("mouseover", (e) => {
+        rect.on("mouseover", (e) => {
             e.target.opacity(1);
             layerForSites.batchDraw();
             const attrs = e.target.attrs;
@@ -106,12 +82,12 @@ function drawSites(stage, layerForSites, currentScale, data) {
             }</span>`;
         });
 
-        cloneRect.on("mouseout", (e) => {
+        rect.on("mouseout", (e) => {
             e.target.opacity(0.7);
             layerForSites.batchDraw();
         });
 
-        layerForSites.add(cloneRect, cloneText);
+        layerForSites.add(rect, text);
     });
 
     data.admin_sites.forEach((item) => {
@@ -152,12 +128,10 @@ function drawSites(stage, layerForSites, currentScale, data) {
 }
 
 function drawVisibleGrid(stage, layerForGrid, currentScale) {
-    const blocksToDraw = scaleToBlocks(currentScale) * 3;
+    const blocksToDraw = scaleToBlocks(currentScale); //* 3;
 
-    const offsetX =
-        -Math.round(stage.x() / (CELL_SIZE * currentScale)) - blocksToDraw / 3;
-    const offsetY =
-        -Math.round(stage.y() / (CELL_SIZE * currentScale)) - blocksToDraw / 3;
+    const offsetX = -Math.round(stage.x() / (CELL_SIZE * currentScale)); //- blocksToDraw / 3;
+    const offsetY = -Math.round(stage.y() / (CELL_SIZE * currentScale)); //- blocksToDraw / 3;
 
     for (var block = 0; block < blocksToDraw; ++block) {
         var x1 = (offsetX + block) * CELL_SIZE;
@@ -203,6 +177,29 @@ function main(data) {
         width: CANVAS_SIZE,
         height: CANVAS_SIZE,
         draggable: true,
+        dragBoundFunc: function (pos) {
+            var x = Math.floor(pos.x / (CELL_SIZE * currentScale));
+            var y = Math.floor(pos.y / (CELL_SIZE * currentScale));
+            console.log(y, x);
+            let newX = pos.x;
+            let newY = pos.y;
+            if (x > 1249) {
+                newX = 1249 * stage.scaleX() * CELL_SIZE;
+            }
+            if (-y < 251) {
+                newY = -251 * stage.scaleY() * CELL_SIZE;
+            }
+
+            // else if (-x > -750) {
+            //     newX = 750 * stage.scaleX() * CELL_SIZE + CANVAS_SIZE / 2;
+            // }
+            // 1054 * stage.scaleX() * CELL_SIZE + CANVAS_SIZE / 2,
+            // -509 * stage.scaleY() * CELL_SIZE + CANVAS_SIZE / 2,
+            return {
+                x: newX,
+                y: newY,
+            };
+        },
         scaleX: DEFAULT_SCALE,
         scaleY: DEFAULT_SCALE,
     });
@@ -222,14 +219,8 @@ function main(data) {
     layerForSites.setZIndex(2);
 
     stage.position({
-        x:
-            (1054 + CANVAS_SIZE / stage.scaleX() / CELL_SIZE / 2) *
-            stage.scaleX() *
-            CELL_SIZE,
-        y:
-            (-509 + CANVAS_SIZE / stage.scaleY() / CELL_SIZE / 2) *
-            stage.scaleY() *
-            CELL_SIZE,
+        x: 1054 * stage.scaleX() * CELL_SIZE + CANVAS_SIZE / 2,
+        y: -509 * stage.scaleY() * CELL_SIZE + CANVAS_SIZE / 2,
     });
 
     drawImage(stage, layerForImage, stage.scaleX());
@@ -282,12 +273,15 @@ function main(data) {
     });
 
     stage.on("dragend", (e) => {
+        console.log("dragend");
         layerForGrid.destroyChildren();
         if (currentScale >= 2.2) {
             drawVisibleGrid(stage, layerForGrid, currentScale);
             layerForGrid.batchDraw();
         }
     });
+
+    stage.on("click", (e) => {});
 
     stage.on("mousemove", (e) => {
         var coord = stage.getPointerPosition();

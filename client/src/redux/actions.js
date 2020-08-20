@@ -11,12 +11,15 @@ export function fetchRegions() {
     return async (dispatch) => {
         try {
             console.log("fetch regions");
-            const response = await fetch("/regions/get-regions", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                "http://localhost:5000/regions/get-regions",
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
             if (!response.ok) {
                 console.log("Not ok: ", response);
@@ -40,15 +43,18 @@ export function createRegion(regionData) {
         try {
             console.log("Create regions");
             //http://localhost
-            const response = await fetch("/regions/create-region", {
-                method: "POST",
-                body: JSON.stringify({
-                    regionData,
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                "http://localhost:5000/regions/create-region",
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        regionData,
+                    }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
             if (!response.ok) {
                 console.log("Not ok: ", response);
@@ -73,15 +79,18 @@ export function changeRegion(regionData) {
         try {
             console.log("Change region");
             //http://localhost
-            const response = await fetch("/regions/change-region", {
-                method: "POST",
-                body: JSON.stringify({
-                    regionData,
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                "http://localhost:5000/regions/change-region",
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        regionData,
+                    }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
             if (!response.ok) {
                 console.log("Not ok: ", response);
@@ -106,15 +115,18 @@ export function deleteRegion(regionNumber) {
         try {
             console.log("Delete region");
             //http://localhost:5000
-            const response = await fetch("/regions/delete-region", {
-                method: "POST",
-                body: JSON.stringify({
-                    regionNumber,
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                "http://localhost:5000/regions/delete-region",
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        regionNumber,
+                    }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
             if (!response.ok) {
                 console.log("Not ok: ", response);

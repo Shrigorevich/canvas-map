@@ -1,5 +1,5 @@
 const CANVAS_SIZE = 600; // pixels
-const WORLD_CELL_COUNT = 4500; // blocks
+const WORLD_CELL_COUNT = 45000; // blocks
 const CELL_SIZE = 2; // pixels
 const WORLD_SIZE = WORLD_CELL_COUNT * CELL_SIZE; // pixels
 

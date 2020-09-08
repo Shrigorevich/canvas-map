@@ -374,7 +374,10 @@ const Dashboard = (props) => {
                 <Typography className={classes.title} variant="h5">
                     JERONIYA
                 </Typography>
-                <Link href="/map" className={classes.barItem}>
+                <Link
+                    href="http://localhost:5000/map"
+                    className={classes.barItem}
+                >
                     MAP
                 </Link>
             </Box>

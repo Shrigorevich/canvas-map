@@ -1,4 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
+import { lightGreen, amber, yellow } from "@material-ui/core/colors";
 
 export default createMuiTheme({
     // typography: {
@@ -8,14 +9,16 @@ export default createMuiTheme({
     palette: {
         type: "dark",
         primary: {
-            main: "#2196f3",
-            light: "#4dabf5",
-            dark: "#1769aa",
+            main: "#4CAF50",
+            light: "#C8E6C9",
+            dark: "#388E3C",
+            textWhite: "#FFFFFF",
+            text: "#212121",
         },
         secondary: {
-            main: "#76ff03",
-            light: "#91ff35",
-            dark: "#52b202",
+            main: "#FFC107",
+            divider: "#BDBDBD",
+            text: "#757575",
         },
         contrastThreshold: 3,
         tonalOffset: 0.2,

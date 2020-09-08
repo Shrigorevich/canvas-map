@@ -6,15 +6,18 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import theme from "./components/theme";
 import Main from "./pages/main";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import Home from "./pages/home";
 
 const App = (props) => {
     return (
         <MuiThemeProvider theme={theme}>
-            <CssBaseline />
             <Router>
                 <Switch>
-                    <Route path="/">
+                    <Route path="/dashboard">
                         <Main />
+                    </Route>
+                    <Route path="/">
+                        <Home />
                     </Route>
                 </Switch>
             </Router>

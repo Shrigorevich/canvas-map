@@ -14,7 +14,7 @@ app.use(cors());
 
 app.use("/map", express.static(path.join(__dirname, "public")));
 
-app.use("/regions", require("./api/regions"));
+app.use("/regions", require("./routes/regions"));
 
 if (process.env.NODE_ENV === "production") {
     console.log("production");
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-const PORT = 80;
+const PORT = 5000;
 
 app.listen(PORT, function () {
     console.log(`Server is running.. on Port ${PORT}`);

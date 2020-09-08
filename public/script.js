@@ -1,7 +1,16 @@
+// class Map {
+//     // Visible area: CANVAS_SIZE / CELL_SIZE = 400 blocks with scale 1
+//     constructor(canvas_size, cell_size, default_scale, scale_by, min_scale) {
+//         this.CANVAS_SIZE = canvas_size; // pixels
+//         this.CELL_SIZE = cell_size; // pixels
+//         this.DEFAULT_SCALE = default_scale;
+//         this.SCALE_BY = scale_by;
+//         this.MIN_SCALE = min_scale; //CANVAS_SIZE / (CELL_SIZE * 500); // where 150 is width/height of visible area
+//         this.MAX_SCALE = canvas_size / (cell_size * 25); // where 25 is width/height of visible area
+//     }
+// }
 const CANVAS_SIZE = 700; // pixels
-const WORLD_CELL_COUNT = 4500; // blocks
 const CELL_SIZE = 2; // pixels
-const WORLD_SIZE = WORLD_CELL_COUNT * CELL_SIZE; // pixels
 
 // Visible area: CANVAS_SIZE / CELL_SIZE = 400 blocks with scale 1
 

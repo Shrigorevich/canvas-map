@@ -19,3 +19,8 @@ code {
     height: 500px;
     overflow: hidden;
 }
+
+.home-wrapper {
+    background-color: #fff;
+    height: 100vh;
+}

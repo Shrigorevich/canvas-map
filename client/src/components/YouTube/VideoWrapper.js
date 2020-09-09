@@ -8,11 +8,10 @@ import theme from "../theme";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        margin: "64px 0 0 0",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        padding: "24px 24px",
+        padding: "0 8px 0 16px",
     },
 }));
 
@@ -20,16 +19,14 @@ const VideoWrapper = (props) => {
     const classes = useStyles();
 
     return (
-        <Grid container className={classes.root}>
-            <Grid item xs={6}>
-                <VideoApi
-                    title={props.title}
-                    link={"1fDQOhc8fv8"}
-                    width="100%"
-                    height="400px"
-                />
-            </Grid>
-        </Grid>
+        <Box className={classes.root}>
+            <VideoApi
+                title={props.title}
+                link={"1fDQOhc8fv8"}
+                width="100%"
+                height="400px"
+            />
+        </Box>
     );
 };
 

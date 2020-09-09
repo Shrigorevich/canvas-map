@@ -49,14 +49,14 @@ const Header = (props) => {
                         <Typography
                             component={NavLink}
                             className={classes.navItem}
-                            to="#"
+                            to="/"
                         >
                             Главная
                         </Typography>
                         <Typography
                             component={NavLink}
                             className={classes.navItem}
-                            to="#"
+                            to="/about-us"
                         >
                             О проекте
                         </Typography>

@@ -4,9 +4,11 @@ import { connect } from "react-redux";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 
 import theme from "./components/theme";
-import Main from "./pages/main";
 import CssBaseline from "@material-ui/core/CssBaseline";
+
+import Main from "./pages/main";
 import Home from "./pages/home";
+import AboutUs from "./pages/aboutUs";
 
 const App = (props) => {
     return (
@@ -16,8 +18,11 @@ const App = (props) => {
                     <Route path="/dashboard">
                         <Main />
                     </Route>
-                    <Route path="/">
+                    <Route path="/" exact>
                         <Home />
+                    </Route>
+                    <Route path="/about-us">
+                        <AboutUs />
                     </Route>
                 </Switch>
             </Router>

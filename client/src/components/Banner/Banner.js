@@ -10,7 +10,7 @@ import {
     Paper,
     Typography,
 } from "@material-ui/core";
-import Image from "./../../images/bg.jpg";
+import Image from "./../../images/img2.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import theme from "../theme";

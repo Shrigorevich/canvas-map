@@ -1,25 +1,18 @@
-import React, { useEffect } from "react";
-import { connect, useDispatch } from "react-redux";
-import Header from "../components/Header/Header";
-import Banner from "../components/Banner/Banner";
-import AccessGuide from "../components/AccessGuide/AccessGuide";
-import Footer from "../components/Footer/Footer";
+import React from "react";
+import Features from "../components/Features.js";
+import Footer from "../components/Footer.js";
+import Guide from "../components/Guide.js";
+import Start from "../components/Start.js";
 
 const Home = (props) => {
-    const dispatch = useDispatch();
-
     return (
-        <div className="home-wrapper">
-            <Header />
-            <Banner />
-            <AccessGuide />
+        <div>
+            <Start />
+            <Features />
+            <Guide />
             <Footer />
         </div>
     );
 };
 
-const mapStateToProps = (state) => {
-    return {};
-};
-
-export default connect(mapStateToProps, null)(Home);
+export default Home;

@@ -13,12 +13,11 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import theme from "../theme";
+import theme from "./theme";
 import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.textWhite,
     },
     navbar: {
@@ -41,7 +40,7 @@ const Header = (props) => {
     const classes = useStyles();
 
     return (
-        <AppBar className={classes.root}>
+        <Box>
             <Container>
                 <Box className={classes.navbar}>
                     <Typography variant="h6">KingsCraft RP</Typography>
@@ -83,7 +82,7 @@ const Header = (props) => {
                     </Toolbar>
                 </Box>
             </Container>
-        </AppBar>
+        </Box>
     );
 };
 

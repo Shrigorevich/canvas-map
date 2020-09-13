@@ -8,7 +8,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import Main from "./pages/main";
 import Home from "./pages/home";
-import AboutUs from "./pages/aboutUs";
 
 const App = (props) => {
     return (
@@ -20,9 +19,6 @@ const App = (props) => {
                     </Route>
                     <Route path="/" exact>
                         <Home />
-                    </Route>
-                    <Route path="/about-us">
-                        <AboutUs />
                     </Route>
                 </Switch>
             </Router>

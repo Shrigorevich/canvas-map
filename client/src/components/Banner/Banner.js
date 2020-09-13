@@ -22,8 +22,9 @@ const useStyles = makeStyles((theme) => ({
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "cover",
-        position: "relative",
         margin: "64px 0 0 0",
+        minHeight: "300px",
+        display: "flex",
     },
 
     bannerContent: {
@@ -31,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         alignItems: "center",
         padding: "24px 0 24px 0",
-        position: "relative",
     },
 
     firstServerPreview: {
@@ -54,7 +54,6 @@ const Header = (props) => {
     return (
         <Paper className={classes.root}>
             <Container className={classes.bannerContent}>
-                <div className={classes.overlay}></div>
                 <Grid container justify="center" alignItems="center">
                     <Grid item className={classes.firstServerPreview} xs={6}>
                         <Box>
@@ -62,11 +61,7 @@ const Header = (props) => {
                             <Typography className={classes.serverDescription}>
                                 It is a long established fact that a reader will
                                 be distracted by the readable content of a page
-                                when looking at its layout. The point of using
-                                Lorem Ipsum is that it has a more-or-less normal
-                                distribution of letters, as opposed to using
-                                'Content here, content here', making it look
-                                like readable English.
+                                when looking at its layout.
                             </Typography>
                         </Box>
                         <Button variant="contained" color={"primary"}>
@@ -79,11 +74,7 @@ const Header = (props) => {
                             <Typography className={classes.serverDescription}>
                                 It is a long established fact that a reader will
                                 be distracted by the readable content of a page
-                                when looking at its layout. The point of using
-                                Lorem Ipsum is that it has a more-or-less normal
-                                distribution of letters, as opposed to using
-                                'Content here, content here', making it look
-                                like readable English.
+                                when looking at its layout.
                             </Typography>
                         </Box>
                         <Button variant="contained" color={"secondary"}>

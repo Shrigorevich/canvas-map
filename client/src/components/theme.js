@@ -16,7 +16,7 @@ export default createMuiTheme({
             text: "#212121",
         },
         secondary: {
-            main: "#FFC107",
+            main: "#FFA000",
             divider: "#BDBDBD",
             text: "#757575",
         },

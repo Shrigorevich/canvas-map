@@ -15,6 +15,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import theme from "../theme";
 import { NavLink } from "react-router-dom";
+import img1 from "./../../images/card1.jpg";
+import img2 from "./../../images/card2.png";
+import img3 from "./../../images/card3.jpg";
+import img4 from "./../../images/card4.jpg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,10 +31,14 @@ const useStyles = makeStyles((theme) => ({
 
     guideStep: {
         padding: "16px",
+        backgroundColor: "#f5f5f5",
+        marginBottom: "8px",
+        borderRadius: "5px",
+        color: "#212121",
     },
 
     stepDescription: {
-        color: theme.palette.secondary.text,
+        color: "#212121",
     },
 }));
 
@@ -58,8 +66,26 @@ const AccessGuide = (props) => {
                             </Typography>
                         </Box>
                     </Grid>
-                    <Grid item xs={2}></Grid>
-                    <Grid item xs={2}></Grid>
+                    <Grid
+                        item
+                        xs={2}
+                        style={{
+                            background: `url(${img1}) no-repeat center center`,
+                            backgroundSize: "cover",
+                            marginBottom: "8px",
+                            borderRadius: "5px",
+                        }}
+                    ></Grid>
+                    <Grid
+                        item
+                        xs={2}
+                        style={{
+                            background: `url(${img2}) no-repeat center center`,
+                            backgroundSize: "cover",
+                            marginBottom: "8px",
+                            borderRadius: "5px",
+                        }}
+                    ></Grid>
                     <Grid item xs={10}>
                         <Box boxShadow={1} className={classes.guideStep}>
                             <Typography variant="h6">Step 2</Typography>
@@ -99,8 +125,26 @@ const AccessGuide = (props) => {
                             </Typography>
                         </Box>
                     </Grid>
-                    <Grid item xs={2}></Grid>
-                    <Grid item xs={2}></Grid>
+                    <Grid
+                        item
+                        xs={2}
+                        style={{
+                            background: `url(${img3}) no-repeat center center`,
+                            backgroundSize: "cover",
+                            marginBottom: "8px",
+                            borderRadius: "5px",
+                        }}
+                    ></Grid>
+                    <Grid
+                        item
+                        xs={2}
+                        style={{
+                            background: `url(${img4}) no-repeat center center`,
+                            backgroundSize: "cover",
+                            marginBottom: "8px",
+                            borderRadius: "5px",
+                        }}
+                    ></Grid>
                     <Grid item xs={10}>
                         <Box boxShadow={1} className={classes.guideStep}>
                             <Typography variant="h6">Step 4</Typography>

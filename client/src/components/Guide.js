@@ -24,7 +24,7 @@ import card4 from "../images/card4.jpg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: "16px",
+        padding: "16px 0",
     },
 
     button: {
@@ -33,17 +33,13 @@ const useStyles = makeStyles((theme) => ({
     backButton: {
         marginRight: theme.spacing(1),
     },
-    completed: {
-        display: "inline-block",
-    },
     instructions: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
     },
 
     stepContent: {
-        backgroundColor: "#424242",
-        padding: "16px",
+        padding: "0 24px 24px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -55,6 +51,18 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         height: "auto",
         marginTop: "16px",
+    },
+
+    title: {
+        textAlign: "center",
+        margin: "0",
+        padding: "16px 0 0 0 ",
+        color: "#fff",
+    },
+
+    container: {
+        backgroundColor: "#424242",
+        borderRadius: "5px",
     },
 }));
 
@@ -113,28 +121,37 @@ const Guide = (props) => {
 
     return (
         <Box className={classes.root}>
-            <Stepper alternativeLabel nonLinear activeStep={activeStep}>
-                {steps.map((label, index) => {
-                    return (
-                        <Step key={label}>
-                            <StepButton onClick={handleStep(index)}>
-                                {label}
-                            </StepButton>
-                        </Step>
-                    );
-                })}
-            </Stepper>
-            <Box className={classes.stepContent}>
-                <Typography>{getStepContent(activeStep).text}</Typography>
-                <Grid container justify="center">
-                    <Grid item xs={6}>
-                        <img
-                            src={getStepContent(activeStep).image}
-                            className={classes.img}
-                        />
-                    </Grid>
-                </Grid>
-            </Box>
+            <Container>
+                <Box className={classes.container}>
+                    <Typography variant="h4" className={classes.title}>
+                        Как попасть на сервер
+                    </Typography>
+                    <Stepper alternativeLabel nonLinear activeStep={activeStep}>
+                        {steps.map((label, index) => {
+                            return (
+                                <Step key={label}>
+                                    <StepButton onClick={handleStep(index)}>
+                                        {label}
+                                    </StepButton>
+                                </Step>
+                            );
+                        })}
+                    </Stepper>
+                    <Box className={classes.stepContent}>
+                        <Typography>
+                            {getStepContent(activeStep).text}
+                        </Typography>
+                        <Grid container justify="center">
+                            <Grid item xs={6}>
+                                <img
+                                    src={getStepContent(activeStep).image}
+                                    className={classes.img}
+                                />
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Box>
+            </Container>
         </Box>
     );
 };

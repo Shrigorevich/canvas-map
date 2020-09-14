@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "0 16px",
     },
     navItem: {
         fontSize: "1.1rem",
@@ -74,7 +73,7 @@ const Start = (props) => {
 
     return (
         <Box className={classes.root}>
-            <Box className={classes.navbar}>
+            <Container className={classes.navbar}>
                 <Typography variant="h5">Kingdom Craft</Typography>
                 <Toolbar className={classes.toolbar}>
                     <Typography
@@ -113,7 +112,7 @@ const Start = (props) => {
                         Log In
                     </Button>
                 </Toolbar>
-            </Box>
+            </Container>
             <Container className={classes.rootContent}>
                 <Typography className={classes.title}>KINGDOM CRAFT</Typography>
                 <Typography className={classes.slogan}>

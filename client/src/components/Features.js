@@ -23,8 +23,8 @@ import card4 from "../images/card4.jpg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: "16px",
         backgroundColor: "#f5f5f5",
+        padding: "16px 0",
     },
 }));
 
@@ -60,45 +60,47 @@ const Features = (props) => {
 
     return (
         <Box className={classes.root}>
-            <Grid container spacing={2}>
-                {content.map((item) => (
-                    <Grid item xs={6} key={item.title}>
-                        <Box
-                            className={classes.card}
-                            boxShadow={3}
-                            borderRadius={5}
-                        >
-                            <Card>
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        alt="Contemplative Reptile"
-                                        height="280"
-                                        image={item.image}
-                                        title="Contemplative Reptile"
-                                    />
-                                    <CardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h5"
-                                            component="h2"
-                                        >
-                                            {item.title}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="textSecondary"
-                                            component="p"
-                                        >
-                                            {item.description}
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Box>
-                    </Grid>
-                ))}
-            </Grid>
+            <Container>
+                <Grid container spacing={2}>
+                    {content.map((item) => (
+                        <Grid item xs={6} key={item.title}>
+                            <Box
+                                className={classes.card}
+                                boxShadow={3}
+                                borderRadius={5}
+                            >
+                                <Card>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            component="img"
+                                            alt="Contemplative Reptile"
+                                            height="280"
+                                            image={item.image}
+                                            title="Contemplative Reptile"
+                                        />
+                                        <CardContent>
+                                            <Typography
+                                                gutterBottom
+                                                variant="h5"
+                                                component="h2"
+                                            >
+                                                {item.title}
+                                            </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                color="textSecondary"
+                                                component="p"
+                                            >
+                                                {item.description}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            </Box>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
         </Box>
     );
 };

@@ -26,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#f5f5f5",
         padding: "16px 0",
     },
+
+    title: {
+        color: "#fff",
+    },
 }));
 
 const content = [
@@ -83,6 +87,7 @@ const Features = (props) => {
                                                 gutterBottom
                                                 variant="h5"
                                                 component="h2"
+                                                className={classes.title}
                                             >
                                                 {item.title}
                                             </Typography>

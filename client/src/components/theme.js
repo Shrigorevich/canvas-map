@@ -8,17 +8,22 @@ export default createMuiTheme({
     // },
     palette: {
         type: "dark",
+        background: {
+            main: "#212121",
+        },
         primary: {
-            main: "#4CAF50",
-            light: "#C8E6C9",
-            dark: "#388E3C",
+            main: "#FFC107",
+            dark: "#FFA000",
             textWhite: "#FFFFFF",
-            text: "#212121",
         },
         secondary: {
-            main: "#FFA000",
-            divider: "#BDBDBD",
+            main: "#03A9F4",
             text: "#757575",
+        },
+        text: {
+            primary: "#212121",
+            secondary: "#757575",
+            white: "#fff",
         },
         contrastThreshold: 3,
         tonalOffset: 0.2,

@@ -17,6 +17,7 @@ import theme from "./theme";
 import { NavLink } from "react-router-dom";
 
 import Image from "../images/bg.png";
+import Header from "./Header";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -72,54 +73,55 @@ const Start = (props) => {
     const classes = useStyles();
 
     return (
+        // <Container className={classes.navbar}>
+        //         <Typography variant="h5">Kingdom Craft</Typography>
+        //         <Toolbar className={classes.toolbar}>
+        //             <Typography
+        //                 component={NavLink}
+        //                 className={classes.navItem}
+        //                 to="/"
+        //             >
+        //                 ГЛАВНАЯ
+        //             </Typography>
+        //             <Typography
+        //                 component={NavLink}
+        //                 className={classes.navItem}
+        //                 to="#"
+        //             >
+        //                 О НАС
+        //             </Typography>
+        //             <Typography
+        //                 component={NavLink}
+        //                 className={classes.navItem}
+        //                 to="#"
+        //             >
+        //                 КОРОЛЕВСТВО
+        //             </Typography>
+        //             <Typography
+        //                 component={NavLink}
+        //                 className={classes.navItem}
+        //                 to="/shop"
+        //             >
+        //                 МАГАЗИН
+        //             </Typography>
+        //             <Button
+        //                 className={classes.btn}
+        //                 variant="outlined"
+        //                 color="secondary"
+        //             >
+        //                 Log In
+        //             </Button>
+        //         </Toolbar>
+        //     </Container>
         <Box className={classes.root}>
-            <Container className={classes.navbar}>
-                <Typography variant="h5">Kingdom Craft</Typography>
-                <Toolbar className={classes.toolbar}>
-                    <Typography
-                        component={NavLink}
-                        className={classes.navItem}
-                        to="/"
-                    >
-                        ГЛАВНАЯ
-                    </Typography>
-                    <Typography
-                        component={NavLink}
-                        className={classes.navItem}
-                        to="/about-us"
-                    >
-                        О НАС
-                    </Typography>
-                    <Typography
-                        component={NavLink}
-                        className={classes.navItem}
-                        to="#"
-                    >
-                        КОРОЛЕВСТВО
-                    </Typography>
-                    <Typography
-                        component={NavLink}
-                        className={classes.navItem}
-                        to="#"
-                    >
-                        МАГАЗИН
-                    </Typography>
-                    <Button
-                        className={classes.btn}
-                        variant="outlined"
-                        color="secondary"
-                    >
-                        Log In
-                    </Button>
-                </Toolbar>
-            </Container>
+            <Header />
             <Container className={classes.rootContent}>
                 <Typography className={classes.title}>KINGDOM CRAFT</Typography>
                 <Typography className={classes.slogan}>
                     Будь кем хочешь. Займи своё место в истории нашего мира
                 </Typography>
                 <Box>
-                    <Button variant="contained" color="secondary" size="large">
+                    <Button variant="contained" color="primary" size="large">
                         НАЧАТЬ
                     </Button>
                 </Box>

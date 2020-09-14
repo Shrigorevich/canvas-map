@@ -19,6 +19,7 @@ import { NavLink } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
     root: {
         color: theme.palette.primary.textWhite,
+        backgroundColor: theme.palette.background.main,
     },
     navbar: {
         display: "flex",
@@ -34,13 +35,16 @@ const useStyles = makeStyles((theme) => ({
     btn: {
         margin: "0 8px 0 8px",
     },
+    active: {
+        color: theme.palette.primary.main,
+    },
 }));
 
 const Header = (props) => {
     const classes = useStyles();
 
     return (
-        <Box>
+        <Box className={classes.root}>
             <Container>
                 <Box className={classes.navbar}>
                     <Typography variant="h6">KingsCraft RP</Typography>
@@ -49,15 +53,16 @@ const Header = (props) => {
                             component={NavLink}
                             className={classes.navItem}
                             to="/"
+                            exact
                         >
                             Главная
                         </Typography>
                         <Typography
                             component={NavLink}
                             className={classes.navItem}
-                            to="/about-us"
+                            to="#"
                         >
-                            О проекте
+                            Королевство
                         </Typography>
                         <Typography
                             component={NavLink}
@@ -69,14 +74,23 @@ const Header = (props) => {
                         <Typography
                             component={NavLink}
                             className={classes.navItem}
-                            to="#"
+                            activeClassName={classes.active}
+                            to="/shop"
                         >
                             Магазин
                         </Typography>
-                        <Button className={classes.btn} variant="outlined">
+                        <Button
+                            className={classes.btn}
+                            variant="outlined"
+                            color="primary"
+                        >
                             Log In
                         </Button>
-                        <Button className={classes.btn} variant="contained">
+                        <Button
+                            className={classes.btn}
+                            variant="contained"
+                            color="secondary"
+                        >
                             Sign Up
                         </Button>
                     </Toolbar>

@@ -18,16 +18,18 @@ import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.primary.text,
-        padding: "24px",
+        backgroundColor: "#212121",
+        padding: "24px 48px",
     },
 
-    footerContent: {
-        color: theme.palette.secondary.text,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
+    toolbar: {
+        justifyContent: "flex-end",
+        color: "#757575",
+        padding: "8px 0 0 0",
+    },
+
+    toolItem: {
+        margin: "0 8px",
     },
 
     footer: {
@@ -48,29 +50,31 @@ const Footer = (props) => {
     return (
         <Box className={classes.root}>
             <Grid container className={classes.footer}>
-                <Grid item xs={4} className={classes.footerContent}>
-                    <Box mb={1}>
-                        <Typography variant="h5">Kings Craft RP</Typography>
+                <Grid item xs={6}>
+                    <Box mb={1} color="#fff">
+                        <Typography variant="h5">Kingdom Craft RP</Typography>
                     </Box>
-                    <Box mb={2}>
+                    <Box color="#757575">
                         <Typography>
                             &#169; Copyright 2020. All rights reserverd.
                         </Typography>
                     </Box>
-                    <Grid container className={classes.social}>
-                        <Grid item xs={3} className={classes.socialIcon}>
+                </Grid>
+                <Grid item xs={6}>
+                    <Toolbar className={classes.toolbar}>
+                        <Typography className={classes.toolItem}>
                             <i className="fab fa-discord fa-lg"></i>
-                        </Grid>
-                        <Grid item xs={3} className={classes.socialIcon}>
+                        </Typography>
+                        <Typography className={classes.toolItem}>
                             <i className="fab fa-youtube fa-lg"></i>
-                        </Grid>
-                        <Grid item xs={3} className={classes.socialIcon}>
+                        </Typography>
+                        <Typography className={classes.toolItem}>
                             <i className="fab fa-telegram fa-lg"></i>
-                        </Grid>
-                        <Grid item xs={3} className={classes.socialIcon}>
+                        </Typography>
+                        <Typography className={classes.toolItem}>
                             <i className="fas fa-share-alt fa-lg"></i>
-                        </Grid>
-                    </Grid>
+                        </Typography>
+                    </Toolbar>
                 </Grid>
             </Grid>
         </Box>

@@ -2,10 +2,6 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { lightGreen, amber, yellow } from "@material-ui/core/colors";
 
 export default createMuiTheme({
-    // typography: {
-    //     useNextVariants: true,
-    //     color: "#fff",
-    // },
     palette: {
         type: "dark",
         background: {
@@ -23,7 +19,6 @@ export default createMuiTheme({
         text: {
             primary: "#212121",
             secondary: "#757575",
-            white: "#fff",
         },
         contrastThreshold: 3,
         tonalOffset: 0.2,

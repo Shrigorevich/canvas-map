@@ -1,16 +1,6 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import {
-    TextField,
-    Grid,
-    Box,
-    Button,
-    Link,
-    AppBar,
-    Container,
-    Toolbar,
-    Typography,
-} from "@material-ui/core";
+import { Box, Button, Container, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import theme from "./theme";
@@ -94,6 +84,7 @@ const Header = (props) => {
                             className={classes.btn}
                             variant="contained"
                             color="secondary"
+                            href="/sign-up"
                         >
                             Sign Up
                         </Button>

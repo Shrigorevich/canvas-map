@@ -11,6 +11,7 @@ import Home from "./pages/home";
 import Shop from "./pages/shop";
 import Kingdom from "./pages/kingdom";
 import Skin from "./pages/skin";
+import SignUp from "./pages/signUp";
 
 const App = (props) => {
     return (
@@ -28,6 +29,9 @@ const App = (props) => {
                     </Route>
                     <Route path="/kingdom">
                         <Kingdom />
+                    </Route>
+                    <Route path="/sign-up">
+                        <SignUp />
                     </Route>
                     <Route path="/skin/:id" component={Skin} />
                 </Switch>

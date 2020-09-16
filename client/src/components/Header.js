@@ -32,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.textWhite,
         textDecoration: "none",
     },
+    toolbar: {
+        padding: 0,
+        margin: "0 -8px",
+    },
     btn: {
         margin: "0 8px 0 8px",
     },
@@ -48,7 +52,7 @@ const Header = (props) => {
             <Container>
                 <Box className={classes.navbar}>
                     <Typography variant="h6">KingsCraft RP</Typography>
-                    <Toolbar>
+                    <Toolbar className={classes.toolbar}>
                         <Typography
                             component={NavLink}
                             className={classes.navItem}

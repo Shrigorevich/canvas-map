@@ -9,6 +9,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Main from "./pages/main";
 import Home from "./pages/home";
 import Shop from "./pages/shop";
+import Kingdom from "./pages/kingdom";
+import Skin from "./pages/skin";
 
 const App = (props) => {
     return (
@@ -21,9 +23,13 @@ const App = (props) => {
                     <Route path="/" exact>
                         <Home />
                     </Route>
-                    <Route path="/shop" exact>
+                    <Route path="/shop">
                         <Shop />
                     </Route>
+                    <Route path="/kingdom">
+                        <Kingdom />
+                    </Route>
+                    <Route path="/skin/:id" component={Skin} />
                 </Switch>
             </Router>
         </MuiThemeProvider>

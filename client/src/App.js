@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { connect } from "react-redux";
-import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
 
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import theme from "./components/theme";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
@@ -12,8 +12,17 @@ import Shop from "./pages/shop";
 import Kingdom from "./pages/kingdom";
 import Skin from "./pages/skin";
 import SignUp from "./pages/signUp";
+import LogIn from "./pages/logIn";
+
+import { loadUser } from "./redux/actions";
 
 const App = (props) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(loadUser());
+    });
+
     return (
         <MuiThemeProvider theme={theme}>
             <Router>
@@ -29,6 +38,9 @@ const App = (props) => {
                     </Route>
                     <Route path="/kingdom">
                         <Kingdom />
+                    </Route>
+                    <Route path="/login">
+                        <LogIn />
                     </Route>
                     <Route path="/sign-up">
                         <SignUp />
@@ -47,6 +59,4 @@ const App = (props) => {
 //     };
 // };
 
-const mapDispatchToProps = {};
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;

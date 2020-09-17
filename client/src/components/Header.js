@@ -77,6 +77,7 @@ const Header = (props) => {
                             className={classes.btn}
                             variant="outlined"
                             color="primary"
+                            href="/login"
                         >
                             Log In
                         </Button>

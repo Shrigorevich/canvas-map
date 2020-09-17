@@ -50,11 +50,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SignUp = () => {
+const LogIn = () => {
     const classes = useStyles();
 
     const [form, setForm] = useState({
-        email: "",
         nickname: "",
         password: "",
     });
@@ -79,25 +78,9 @@ const SignUp = () => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign Up
+                    Log In
                 </Typography>
                 <form className={classes.form} noValidate>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                        InputProps={{
-                            className: classes.input,
-                        }}
-                        value={form.email}
-                        onChange={changeHandler}
-                    />
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -141,7 +124,7 @@ const SignUp = () => {
                         color="primary"
                         className={classes.submit}
                     >
-                        Sign In
+                        Log In
                     </Button>
                     <Grid container>
                         <Grid item xs>
@@ -150,7 +133,7 @@ const SignUp = () => {
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/sign-up" variant="body2">
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
@@ -164,4 +147,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default LogIn;

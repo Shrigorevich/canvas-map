@@ -1,20 +1,7 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import {
-    TextField,
-    Grid,
-    Box,
-    Button,
-    Link,
-    AppBar,
-    Container,
-    Toolbar,
-    Typography,
-} from "@material-ui/core";
+import { Grid, Box, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
-import theme from "./theme";
-import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {

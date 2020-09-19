@@ -9,11 +9,19 @@ const connectDB = require("./db");
 const app = express();
 connectDB();
 
-app.use(cors());
+//app.use(cors());
+app.use(
+    cors({
+        credentials: true,
+        origin: ["http://localhost:3000"],
+        optionsSuccessStatus: 200,
+    })
+);
 app.use(express.json({ extended: true }));
 app.use("/map", express.static(path.join(__dirname, "public")));
 app.use("/regions", require("./routes/regions"));
 app.use("/api/auth", require("./routes/api/auth"));
+app.use("/api/users", require("./routes/api/users"));
 
 if (process.env.NODE_ENV === "production") {
     console.log("production");

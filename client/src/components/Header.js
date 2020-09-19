@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import theme from "./theme";
 import { NavLink } from "react-router-dom";
+import LogOut from "./LogOut";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,6 +32,13 @@ const useStyles = makeStyles((theme) => ({
     },
     active: {
         color: theme.palette.primary.main,
+    },
+
+    logged: {
+        color: theme.palette.primary.main,
+        display: "flex",
+        alignItems: "center",
+        marginLeft: "8px",
     },
 }));
 
@@ -73,22 +81,33 @@ const Header = (props) => {
                         >
                             Магазин
                         </Typography>
-                        <Button
-                            className={classes.btn}
-                            variant="outlined"
-                            color="primary"
-                            href="/login"
-                        >
-                            Log In
-                        </Button>
-                        <Button
-                            className={classes.btn}
-                            variant="contained"
-                            color="secondary"
-                            href="/sign-up"
-                        >
-                            Sign Up
-                        </Button>
+                        {props.isAuth ? (
+                            <Box className={classes.logged}>
+                                <Typography>
+                                    Hello, {props.user.nickname}
+                                </Typography>
+                                <LogOut />
+                            </Box>
+                        ) : (
+                            <>
+                                <Button
+                                    className={classes.btn}
+                                    variant="outlined"
+                                    color="primary"
+                                    href="/login"
+                                >
+                                    Log In
+                                </Button>
+                                <Button
+                                    className={classes.btn}
+                                    variant="contained"
+                                    color="secondary"
+                                    href="/sign-up"
+                                >
+                                    Sign Up
+                                </Button>
+                            </>
+                        )}
                     </Toolbar>
                 </Box>
             </Container>
@@ -98,7 +117,8 @@ const Header = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        regions: {},
+        isAuth: state.auth.isAuth,
+        user: state.auth.user,
     };
 };
 

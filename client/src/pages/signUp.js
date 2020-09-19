@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { createRef, forwardRef, useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +13,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Fade from "@material-ui/core/Fade";
+import { Alert } from "@material-ui/lab";
+
+import { connect, useDispatch } from "react-redux";
+import { register } from "../redux/actions";
 
 function Copyright() {
     return (
@@ -28,7 +34,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(6),
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -48,10 +54,17 @@ const useStyles = makeStyles((theme) => ({
     input: {
         color: "#fff",
     },
+
+    relative: {
+        position: "relative",
+    },
+    error: {},
 }));
 
-const SignUp = () => {
+const SignUp = (props) => {
     const classes = useStyles();
+
+    const dispatch = useDispatch();
 
     const [form, setForm] = useState({
         email: "",
@@ -67,13 +80,35 @@ const SignUp = () => {
                 [event.target.name]: event.target.value,
             };
         });
-
-        console.log(form);
     };
 
+    const submit = () => {
+        const user = {
+            nickname: form.nickname,
+            email: form.email,
+            password: form.password,
+        };
+        dispatch(register(user));
+    };
+
+    const [toggle, setToggle] = useState(false);
+
+    useEffect(() => {
+        if (props.error?.id == "REGISTER_FAIL") {
+            setToggle(true);
+        }
+    }, [props.error]);
+
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" className={classes.relative}>
             <CssBaseline />
+            <Box mt={2}>
+                <Fade in={toggle}>
+                    <Alert severity="error" className={classes.error}>
+                        {props.error.msg.msg}
+                    </Alert>
+                </Fade>
+            </Box>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
@@ -135,11 +170,11 @@ const SignUp = () => {
                         label="Remember me"
                     />
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={submit}
                     >
                         Sign In
                     </Button>
@@ -160,8 +195,16 @@ const SignUp = () => {
             <Box mt={8}>
                 <Copyright />
             </Box>
+            {props.isAuth ? <Redirect to="/" /> : null}
         </Container>
     );
 };
 
-export default SignUp;
+const mapStateToProps = (state) => {
+    return {
+        isAuth: state.auth.isAuth,
+        error: state.error,
+    };
+};
+
+export default connect(mapStateToProps, null)(SignUp);

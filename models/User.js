@@ -1,14 +1,14 @@
-const {Schema, model, Types} = require('mongoose');
-const mongoose = require('mongoose');
+const { Schema, model, Types } = require("mongoose");
+const timestamps = require("mongoose-timestamp");
 
-const schema = new Schema({
-   firstName: {type: String, required: true, unique: true},
-   lastName: {type: String, required: true},
-   username: {type: String, required: true, unique: true},
-   email: {type: String, required: true, unique: true},
-   password: {type: String, required: true},
-   avatar: {type: String, required: false},
-   date: {type: Date, default: Date.now}
-})
+const UserSchema = new Schema({
+    nickname: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: false },
+    password: { type: String, required: true },
+});
 
-module.exports = model('User', schema)
+UserSchema.plugin(timestamps);
+
+UserSchema.index({ createdAt: 1, updatedAt: 1 });
+
+module.exports = model("User", UserSchema);

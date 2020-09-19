@@ -32,11 +32,12 @@ export const authReducer = (state = initialState, action) => {
             };
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
+            localStorage.setItem("jwt", action.payload.token);
             return {
                 ...state,
                 isAuth: true,
                 isLoading: false,
-                //...action.payload
+                ...action.payload,
             };
         case REGISTER_FAIL:
         case LOGIN_FAIL:

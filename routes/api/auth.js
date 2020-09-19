@@ -8,31 +8,35 @@ const auth = require("./../../middlwares/auth");
 router.post("/", async (req, res) => {
     console.log("login");
 
-    const { username, password } = req.body;
+    const { nickname, password } = req.body;
 
     //Simple validation
-    if (!username || !password) {
+    if (!nickname || !password) {
         return res.status(400).json({ msg: "Please enter all fields" });
     }
     //Check for existing user
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ nickname });
     if (!user) return res.status(400).json({ msg: "User does not exists" });
+
     //Validate password
     bcrypt.compare(password, user.password).then((isMatch) => {
-        if (!isMatch)
+        if (!isMatch) {
+            console.log("Fail");
             return res.status(400).json({ msg: "Invalid credentials!" });
+        }
 
         jwt.sign(
             { id: user.id },
             process.env.jwtSecret,
-            { expiresIn: "24h" },
+            { expiresIn: "365d" },
             async (err, token) => {
                 if (err) throw err;
+
                 res.status(200).json({
                     token,
                     user: {
-                        id: user.id,
-                        username: user.username,
+                        nickname: user.nickname,
+                        email: user.email,
                     },
                 });
             }
@@ -41,7 +45,6 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/user", auth, (req, res) => {
-    console.log("profile");
     User.findById(req.user.id)
         .select("-password")
         .then((user) => res.json(user));

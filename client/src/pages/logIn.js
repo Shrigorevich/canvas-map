@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +13,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Fade from "@material-ui/core/Fade";
+import { Alert } from "@material-ui/lab";
+
+import { Redirect } from "react-router-dom";
+import { login } from "../redux/actions";
 
 function Copyright() {
     return (
@@ -19,7 +25,7 @@ function Copyright() {
             {"Copyright © "}
             <Link color="inherit" href="https://material-ui.com/">
                 Kingdom Craft
-            </Link>{" "}
+            </Link>
             {new Date().getFullYear()}
             {"."}
         </Typography>
@@ -50,8 +56,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const LogIn = () => {
+const LogIn = (props) => {
     const classes = useStyles();
+
+    const dispatch = useDispatch();
 
     const [form, setForm] = useState({
         nickname: "",
@@ -66,13 +74,35 @@ const LogIn = () => {
                 [event.target.name]: event.target.value,
             };
         });
-
-        console.log(form);
     };
+
+    const submit = () => {
+        const user = {
+            nickname: form.nickname,
+            password: form.password,
+        };
+
+        dispatch(login(user));
+    };
+
+    const [toggle, setToggle] = useState(false);
+
+    useEffect(() => {
+        if (props.error?.id == "LOGIN_FAIL") {
+            setToggle(true);
+        }
+    }, [props.error]);
 
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
+            <Box mt={2}>
+                <Fade in={toggle}>
+                    <Alert severity="error" className={classes.error}>
+                        {props.error.msg.msg}
+                    </Alert>
+                </Fade>
+            </Box>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
@@ -80,7 +110,7 @@ const LogIn = () => {
                 <Typography component="h1" variant="h5">
                     Log In
                 </Typography>
-                <form className={classes.form} noValidate>
+                <div className={classes.form} noValidate>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -118,11 +148,11 @@ const LogIn = () => {
                         label="Remember me"
                     />
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={submit}
                     >
                         Log In
                     </Button>
@@ -138,13 +168,21 @@ const LogIn = () => {
                             </Link>
                         </Grid>
                     </Grid>
-                </form>
+                </div>
             </div>
             <Box mt={8}>
                 <Copyright />
             </Box>
+            {props.isAuth ? <Redirect to="/" /> : null}
         </Container>
     );
 };
 
-export default LogIn;
+const mapStateToProps = (state) => {
+    return {
+        isAuth: state.auth.isAuth,
+        error: state.error,
+    };
+};
+
+export default connect(mapStateToProps, null)(LogIn);

@@ -18,11 +18,9 @@ const store = createStore(
     )
 );
 const app = (
-    <React.StrictMode>
-        <Provider store={store}>
-            <App />
-        </Provider>
-    </React.StrictMode>
+    <Provider store={store}>
+        <App />
+    </Provider>
 );
 
 ReactDOM.render(app, document.getElementById("root"));

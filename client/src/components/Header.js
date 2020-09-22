@@ -65,6 +65,7 @@ const Header = (props) => {
                         <Typography
                             component={NavLink}
                             className={classes.navItem}
+                            activeClassName={classes.active}
                             to="/universe"
                         >
                             Вселенная
@@ -72,6 +73,7 @@ const Header = (props) => {
                         <Typography
                             component={NavLink}
                             className={classes.navItem}
+                            activeClassName={classes.active}
                             to="#"
                         >
                             Форум

@@ -6,8 +6,6 @@ const jwt = require("jsonwebtoken");
 const auth = require("./../../middlwares/auth");
 
 router.post("/", async (req, res) => {
-    console.log("login");
-
     const { nickname, password } = req.body;
 
     //Simple validation

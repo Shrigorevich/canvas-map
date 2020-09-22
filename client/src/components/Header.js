@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
     root: {
         color: theme.palette.primary.textWhite,
         backgroundColor: theme.palette.background.main,
+        position: "fixed",
+        width: "100%",
+        zIndex: 10,
     },
     navbar: {
         display: "flex",
@@ -49,7 +52,7 @@ const Header = (props) => {
         <Box className={classes.root}>
             <Container>
                 <Box className={classes.navbar}>
-                    <Typography variant="h6">KingsCraft RP</Typography>
+                    <Typography variant="h6">Kingdom Craft</Typography>
                     <Toolbar className={classes.toolbar}>
                         <Typography
                             component={NavLink}
@@ -62,9 +65,9 @@ const Header = (props) => {
                         <Typography
                             component={NavLink}
                             className={classes.navItem}
-                            to="#"
+                            to="/universe"
                         >
-                            Королевство
+                            Вселенная
                         </Typography>
                         <Typography
                             component={NavLink}

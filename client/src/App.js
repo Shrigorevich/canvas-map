@@ -29,7 +29,7 @@ const App = (props) => {
                     <Route path="/shop">
                         <Shop />
                     </Route>
-                    <Route path="/kingdom">
+                    <Route path="/universe">
                         <Kingdom />
                     </Route>
                     <Route path="/sign-up">

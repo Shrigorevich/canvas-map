@@ -74,14 +74,6 @@ const Header = (props) => {
                             component={NavLink}
                             className={classes.navItem}
                             activeClassName={classes.active}
-                            to="#"
-                        >
-                            Форум
-                        </Typography>
-                        <Typography
-                            component={NavLink}
-                            className={classes.navItem}
-                            activeClassName={classes.active}
                             to="/shop"
                         >
                             Магазин
